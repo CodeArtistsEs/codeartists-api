@@ -1,24 +1,51 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using codeartistsapi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace codeartistsapi.Controllers
 {
+    [Route("api/[controller]")]
     public class NewsController : Controller
     {
-        // GET
-        public IActionResult Index()
+        private readonly NewsContext _context;
+
+        public NewsController(NewsContext context)
         {
-            //return View();
-            return null;
+            _context = context;
+
+            if (_context.News.Count() == 0)
+            {
+                var news = new News() { 
+                    Id = 1,
+                    Header = "Code Artists",
+                    Content = "Hello world!"
+                };
+
+                _context.News.Add(news);
+                _context.SaveChanges();
+            }
         }
 
-        public List<New> GetAllNews()
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            var testProducts = new List<New>();
-            
-            testProducts.Add(new New() {Id=1,Header="New",Content=""}) ;
-            return testProducts;
+            var newsList = _context.News.ToList();
+
+            var response = new JObject(
+                new JProperty("ok", true),
+                new JProperty("data", new JArray(
+                    from n in newsList
+                    select new JObject(
+                        new JProperty("id", n.Id),
+                        new JProperty("header", n.Header),
+                        new JProperty("content", n.Content)
+                    )
+                ))
+            );
+
+            return Ok(response);
         }
     }
 }
