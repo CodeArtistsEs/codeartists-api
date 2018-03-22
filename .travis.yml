@@ -3,11 +3,13 @@ mono: none
 dotnet: 2.0.0
 
 install:
-- dotnet restore
+ - dotnet restore
+ - npm install
 
 script:
  - dotnet build
  - dotnet test codeartistsapi.Tests/codeartistsapi.Tests.csproj
+ - npm test
  
 after_success:
- - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+ - npm run report-coverage
