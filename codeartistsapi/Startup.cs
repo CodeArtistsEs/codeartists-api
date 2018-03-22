@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using codeartistsapi.Models;
+﻿using codeartistsapi.Data;
+using codeartistsapi.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +29,10 @@ namespace codeartistsapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NewsContext>(opt => opt.UseInMemoryDatabase("codeartists"));
+
             services.AddMvc();
+
+            services.AddScoped<INewsRepository, NewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

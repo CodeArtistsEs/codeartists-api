@@ -1,49 +1,28 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using codeartistsapi.Models;
+using codeartistsapi.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using codeartistsapi.Helpers;
 
 namespace codeartistsapi.Controllers
 {
     [Route("api/[controller]")]
     public class NewsController : Controller
     {
-        private readonly NewsContext _context;
+        private readonly INewsRepository _newsRepository;
 
-        public NewsController(NewsContext context)
+        public NewsController(INewsRepository newsRepository)
         {
-            _context = context;
-
-            if (_context.News.Count() == 0)
-            {
-                var news = new News() { 
-                    Id = 1,
-                    Header = "Code Artists",
-                    Content = "Hello world!"
-                };
-
-                _context.News.Add(news);
-                _context.SaveChanges();
-            }
+            _newsRepository = newsRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var newsList = _context.News.ToList();
+            var newsList = _newsRepository.FindAll().ToList();
 
-            var response = new JObject(
-                new JProperty("ok", true),
-                new JProperty("data", new JArray(
-                    from n in newsList
-                    select new JObject(
-                        new JProperty("id", n.Id),
-                        new JProperty("header", n.Header),
-                        new JProperty("content", n.Content)
-                    )
-                ))
-            );
+            var response = new JsonResponse<List<News>, string>(newsList);
 
             return Ok(response);
         }

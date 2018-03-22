@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
-using Xunit;
-using codeartistsapi.Models;
-using Microsoft.EntityFrameworkCore;
-using codeartistsapi.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using System.Linq;
+using Xunit;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using codeartistsapi.Models;
+using codeartistsapi.Data.Repositories;
+using codeartistsapi.Data;
+using codeartistsapi.Controllers;
+using codeartistsapi.Helpers;
 
 namespace codeartistsapi.Tests
 {
@@ -39,12 +40,13 @@ namespace codeartistsapi.Tests
 
             using (var context = new NewsContext(options))
             {
-                var newsController = new NewsController(context);
+                var newsRepository = new NewsRepository(context);
+                var newsController = new NewsController(newsRepository);
                 
                 var response = newsController.GetAll() as OkObjectResult;
-                var result = response.Value as JObject;
+                var jsonResponse = response.Value as JsonResponse<List<News>, string>;
 
-                var newsList = result.Value<JArray>("data").Values().ToList();
+                var newsList = jsonResponse.Data;
 
                 Assert.True(newsList.Count > 0);
             }
