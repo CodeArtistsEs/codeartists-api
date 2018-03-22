@@ -8,6 +8,6 @@ install:
 script:
  - dotnet build
  - dotnet test codeartistsapi.Tests/codeartistsapi.Tests.csproj
- - sbt clean coverage test
-
-after_success: sbt coveralls
+ 
+after_success:
+ - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
