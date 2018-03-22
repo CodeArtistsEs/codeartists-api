@@ -4,12 +4,12 @@ dotnet: 2.0.0
 
 install:
  - dotnet restore
- - npm install
+# - npm install
 
 script:
  - dotnet build
  - dotnet test codeartistsapi.Tests/codeartistsapi.Tests.csproj
- - npm test
+# - npm test
  
 after_success:
- - npm run report-coverage
+# - npm run report-coverage
