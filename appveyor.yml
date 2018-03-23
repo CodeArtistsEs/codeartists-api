@@ -18,6 +18,7 @@ environment:
 
 after_test: 
 # generate report for XUnit testing framework:
+    - cmd: dotnet test 
     -  C:\projects\codeartists-api\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:\Tools\xUnit20\xunit.console.exe" -targetargs:"C:\projects\codeartists-api\codeartistsapi.Tests\bin\Debug\netcoreapp2.0\codeartistsapi.Tests.dll -noshadow" -output:".\coverage.xml" -filter:"+[*]*" 
     -  C:\projects\codeartists-api\packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
 
