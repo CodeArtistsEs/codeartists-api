@@ -17,9 +17,9 @@ environment:
        secure: Xs5lc3/PPmTvmDoObEHVfTauYQtCnrhaiNkvFq5QxKhGeeR2dhQiSpVirSNepivy
 
 after_test: 
-# generate report for XUnit testing framework:
-    - cmd: dotnet test 
-    -  C:\projects\codeartists-api\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"C:\Tools\xUnit20\xunit.console.exe" -targetargs:"C:\projects\codeartists-api\codeartistsapi.Tests\bin\Debug\netcoreapp2.0\codeartistsapi.Tests.dll -noshadow" -output:".\coverage.xml" -filter:"+[*]*" 
+# generate report using XUnit testing framework:
+#    - cmd: dotnet test 
+    -  C:\projects\codeartists-api\packages\opencover\4.6.519\tools\OpenCover.Console.exe -register:user -target:"c:\Program Files\dotnet\dotnet.exe" -targetargs:"test --logger:trx;LogFileName=results.trx /p:DebugType=full C:\projects\codeartists-api\codeartistsapi.Tests\codeartistsapi.Tests.csproj" -output:".\coverage.xml" -filter:"+[*]*" 
     -  C:\projects\codeartists-api\packages\coveralls.io\1.4.2\tools\coveralls.net.exe --opencover coverage.xml -r %COVERALLS_REPO_TOKEN%
 
 # to be able to do RDP on the VM where the worker is running on final stage (a file neews to be removed in desktop to finish the build)
