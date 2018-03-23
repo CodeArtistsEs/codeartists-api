@@ -8,7 +8,7 @@ init:
 install:
     - nuget restore
     
-#build:
+build:
   project: codeartistsapi.sln
   verbosity: detailed
 
