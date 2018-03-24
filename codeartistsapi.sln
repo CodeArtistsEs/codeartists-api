@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 15.00
+Microsoft Visual Studio Solution File, Format Version 14.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeartistsapi", "codeartistsapi\codeartistsapi.csproj", "{BA577255-5175-4671-B010-DC565A3FE949}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "codeartistsapi.Tests", "codeartistsapi.Tests\codeartistsapi.Tests.csproj", "{A0198512-BD82-493E-AC89-3A1EF6F9F58F}"
