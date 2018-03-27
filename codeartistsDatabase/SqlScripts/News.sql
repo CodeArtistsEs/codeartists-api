@@ -1,13 +1,13 @@
--- Table: public."News"
+-- Table: public."news"
 
--- DROP TABLE public."News";
+-- DROP TABLE public."news";
 
-CREATE TABLE public."News"
+CREATE TABLE public."news"
 (
-    "NewsId" bigint NOT NULL DEFAULT nextval('"News_NewsId_seq"'::regclass),
-    "Header" text COLLATE pg_catalog."default",
-    "Content" text COLLATE pg_catalog."default",
-    CONSTRAINT "News_pkey" PRIMARY KEY ("NewsId")
+    "news_id" bigint NOT NULL DEFAULT nextval('"News_news_id_seq"'::regclass),
+    "header" text COLLATE pg_catalog."default",
+    "content" text COLLATE pg_catalog."default",
+    CONSTRAINT "News_pkey" PRIMARY KEY ("news_id")
 )
 WITH (
     OIDS = FALSE
