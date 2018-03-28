@@ -8,16 +8,45 @@ using codeartistsapi.Data.Repositories;
 using codeartistsapi.Data;
 using codeartistsapi.Controllers;
 using codeartistsapi.Helpers;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging.AzureAppServices.Internal;
 
 namespace codeartistsapi.Tests
 {
     public class UnitTests
     {
+        public UnitTests()
+        {
+            
+        }
+        
         [Fact]
         public void Test()
         {
             Assert.Equal(true, true); // just to pass the tests ;)
         }
+
+        #region DatabaseTests
+            
+        // Database tests. Actually is not recommended to do this, change for some mockup in the future
+        [Fact]
+        public void GetConnStringFromConfigFile()
+        {
+//            var codeartistsApiStartup = new codeartistsapi.Startup(new HEnvironment());
+            
+            var connString = codeartistsApiStartup.ConnString;
+            
+            Assert.NotNull(connString);
+        }
+        
+        [Fact]
+        public void ConnectAndDisconnectFromDatabase()
+        {
+            
+        }
+            
+        #endregion
         
         [Fact]
         public void GetAllNews_ShouldReturnAllNews()
@@ -51,5 +80,7 @@ namespace codeartistsapi.Tests
                 Assert.True(newsList.Count > 0);
             }
         }
+     
     }
+
 }

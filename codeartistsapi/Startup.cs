@@ -11,6 +11,8 @@ namespace codeartistsapi
 {
     public class Startup
     {
+        public string ConnString { get; set; }
+        
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -33,6 +35,11 @@ namespace codeartistsapi
             services.AddMvc();
 
             services.AddScoped<INewsRepository, NewsRepository>();
+
+            ConnString = Configuration.GetConnectionString("DevDatabase");
+
+//            services.AddDbContext<NewsContext>(options =>
+//                options.UseSqlServer(Configuration.GetConnectionString("DevDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
