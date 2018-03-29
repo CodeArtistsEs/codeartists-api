@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
+using Moq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using codeartistsapi.Models;
@@ -18,9 +19,8 @@ namespace codeartistsapi.Tests
     {
         public UnitTests()
         {
-            
         }
-        
+
         [Fact]
         public void Test()
         {
@@ -28,26 +28,27 @@ namespace codeartistsapi.Tests
         }
 
         #region DatabaseTests
-            
+
         // Database tests. Actually is not recommended to do this, change for some mockup in the future
         [Fact]
         public void GetConnStringFromConfigFile()
         {
-//            var codeartistsApiStartup = new codeartistsapi.Startup(new HEnvironment());
+            Mock<IHostingEnvironment> mockHostingEnvironment = new Mock<IHostingEnvironment>();
             
+            var codeartistsApiStartup = new codeartistsapi.Startup(mockHostingEnvironment.Object);
+
             var connString = codeartistsApiStartup.ConnString;
-            
+
             Assert.NotNull(connString);
         }
-        
+
         [Fact]
         public void ConnectAndDisconnectFromDatabase()
         {
-            
         }
-            
+
         #endregion
-        
+
         [Fact]
         public void GetAllNews_ShouldReturnAllNews()
         {
@@ -57,7 +58,8 @@ namespace codeartistsapi.Tests
 
             using (var context = new NewsContext(options))
             {
-                var news = new News() { 
+                var news = new News()
+                {
                     Id = 1,
                     Header = "Code Artists",
                     Content = "Hello world!"
@@ -71,7 +73,7 @@ namespace codeartistsapi.Tests
             {
                 var newsRepository = new NewsRepository(context);
                 var newsController = new NewsController(newsRepository);
-                
+
                 var response = newsController.GetAll() as OkObjectResult;
                 var jsonResponse = response.Value as JsonResponse<List<News>, string>;
 
@@ -80,7 +82,5 @@ namespace codeartistsapi.Tests
                 Assert.True(newsList.Count > 0);
             }
         }
-     
     }
-
 }
