@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 using Moq;
@@ -10,6 +11,7 @@ using codeartistsapi.Data;
 using codeartistsapi.Controllers;
 using codeartistsapi.Helpers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging.AzureAppServices.Internal;
 
@@ -21,6 +23,7 @@ namespace codeartistsapi.Tests
         {
         }
 
+        //https://www.meziantou.net/2017/08/21/testing-an-asp-net-core-application-using-testserver
         [Fact]
         public void Test()
         {
@@ -34,8 +37,11 @@ namespace codeartistsapi.Tests
         public void GetConnStringFromConfigFile()
         {
             Mock<IHostingEnvironment> mockHostingEnvironment = new Mock<IHostingEnvironment>();
-            
+            Mock<IServiceCollection> mockServiceCollection = new Mock<IServiceCollection>();
+
+            mockHostingEnvironment.Setup(m => m.ContentRootPath).Returns(Directory.GetCurrentDirectory());
             var codeartistsApiStartup = new codeartistsapi.Startup(mockHostingEnvironment.Object);
+            codeartistsApiStartup.ConfigureServices(mockServiceCollection.Object);
 
             var connString = codeartistsApiStartup.ConnString;
 
