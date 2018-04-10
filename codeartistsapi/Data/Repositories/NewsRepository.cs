@@ -10,7 +10,7 @@ namespace codeartistsapi.Data.Repositories
         public NewsRepository(NewsContext context) {
             _context = context;
 
-            if (_context.News.Count() == 0)
+            if (!_context.News.Any())
             {
                 var news = new News() { 
                     Id = 1,
