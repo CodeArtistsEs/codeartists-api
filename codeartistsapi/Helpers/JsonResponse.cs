@@ -13,6 +13,10 @@ namespace codeartistsapi.Helpers
         [JsonProperty("error")]
         public TError Error { get; }
 
+        public JsonResponse()
+        {
+            
+        }
         public JsonResponse(TData data)
         {
             Data = data;
