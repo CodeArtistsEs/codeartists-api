@@ -22,7 +22,7 @@ namespace codeartistsapi.Controllers
         {
             var newsList = _newsRepository.FindAll().ToList();
 
-            var response = new JsonResponse<List<News>, string>(newsList);
+            var response = new JsonDataResponse() {Data = newsList, Error = "", Ok = true};
 
             return Ok(response);
         }

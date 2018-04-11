@@ -1,42 +1,36 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using codeartistsapi.Models;
 using Newtonsoft.Json;
 
 namespace codeartistsapi.Helpers
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public class JsonResponse<TData, TError>
+    public class JsonResponse
     {
-        [JsonProperty("ok")]
-        public bool Ok { get; }
-        [JsonProperty("data")]
-        public TData Data { get; }
-        [JsonProperty("error")]
-        public TError Error { get; }
+        [JsonProperty("ok")] public bool Ok { get; set; }
 
-        public JsonResponse()
-        {
-            
-        }
-        public JsonResponse(TData data)
-        {
-            Data = data;
-            Ok = true;
-        }
+        [JsonProperty("error")] public object Error { get; set; }
+    }
 
-        public JsonResponse(TError error)
-        {
-            Error = error;
-            Ok = false;
-        }
+    [JsonObject(MemberSerialization.OptIn)]
+    public class JsonResponse<TError> : JsonResponse
+    {
+        public new TError Error => (TError) base.Error;
+    }
 
-        public bool ShouldSerializeData()
-        {
-            return Ok;
-        }
+    [JsonObject(MemberSerialization.OptIn)]
+    public class JsonDataResponse : JsonResponse
+    {
+        [JsonProperty("data")] public object Data { get; set; }
+  
+    }
 
-        public bool ShouldSerializeError()
-        {
-            return !Ok;
-        }
+    [JsonObject(MemberSerialization.OptIn)]
+    public class JsonDataResponse<TError, TData> : JsonDataResponse
+    {
+        public new TData Data => (TData) base.Data;
+        public new TError Error => (TError) base.Error;
     }
 }
