@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CodeArtistsEs/codeartists-api/badge.svg?branch=master)](https://coveralls.io/github/CodeArtistsEs/codeartists-api?branch=master)
 
 Technology:
-Asp.Net core + postgresql (cochroacdb)
+Asp.Net core + postgresql (cockroachdb)
 
 Thanks to:
 Jorge for the badges info: https://lenguajedeprogramacion.com/programacion/mejora-repositorios-insignias-badges/
