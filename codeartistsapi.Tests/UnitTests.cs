@@ -34,6 +34,41 @@ namespace codeartistsapi.Tests
 
         #region ApiCallsTests
 
+                
+        [Fact]
+        public async Task GetAllNewsWithNoNews_ShouldReturnError()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<NewsContext>()
+                .UseInMemoryDatabase(databaseName: "codeartists_test")
+                .Options;
+            
+            using (var context = new NewsContext(options))
+            {
+                var news = new News()
+                {
+                    Id = 1,
+                    Header = "Code Artists",
+                    Content = "Hello world!"
+                };
+
+                context.News.Remove(news);
+                context.SaveChanges();
+            }
+
+            
+            // Act
+            var response = await _client.GetAsync("/api/News?GetAll");
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            var listOfNews = JsonConvert.DeserializeObject<JsonDataResponse>(responseString);
+            
+            // Assert
+            Assert.True((bool)listOfNews.Ok == false);
+
+        }
+        
         [Fact]
         public async Task GetAllNews_ShouldReturnAllNews()
         {
@@ -54,8 +89,6 @@ namespace codeartistsapi.Tests
                 context.News.Add(news);
                 context.SaveChanges();
             }
-            //manual testing
-            //string x = "{\"ok\":true,\"data\":[{\"id\":1,\"header\":\"Code Artists\",\"content\":\"Hello world!@\"}]}";
             
             // Act
             var response = await _client.GetAsync("/api/News?GetAll");

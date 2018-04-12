@@ -21,8 +21,16 @@ namespace codeartistsapi.Controllers
         public IActionResult GetAll()
         {
             var newsList = _newsRepository.FindAll().ToList();
+            JsonDataResponse response;
 
-            var response = new JsonDataResponse() {Data = newsList, Error = "", Ok = true};
+            if (newsList.Any())
+            {
+                response = new JsonDataResponse() {Data = newsList, Error = "", Ok = true};
+            }
+            else
+            {
+                response = new JsonDataResponse<string,List<News>>() {Data = null, Error = "No news!" , Ok = false};
+            }
 
             return Ok(response);
         }

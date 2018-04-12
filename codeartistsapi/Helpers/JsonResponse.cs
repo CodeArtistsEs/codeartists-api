@@ -30,7 +30,16 @@ namespace codeartistsapi.Helpers
     [JsonObject(MemberSerialization.OptIn)]
     public class JsonDataResponse<TError, TData> : JsonDataResponse
     {
-        public new TData Data => (TData) base.Data;
-        public new TError Error => (TError) base.Error;
+        public new TData Data
+        {
+            get => (TData)base.Data;
+            set => base.Data = value;
+        }
+        
+        public new TError Error
+        {
+            get => (TError)base.Error;
+            set => base.Error = value;
+        }
     }
 }
