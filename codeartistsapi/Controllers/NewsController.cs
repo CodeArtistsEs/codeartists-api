@@ -29,7 +29,7 @@ namespace codeartistsapi.Controllers
             }
             else
             {
-                response = new JsonDataResponse<string,List<News>>() {Data = null, Error = "No news!" , Ok = false};
+                response = new JsonDataResponse<string,List<News>>() {Data = newsList, Error = "No news!" , Ok = false};
             }
 
             return Ok(response);

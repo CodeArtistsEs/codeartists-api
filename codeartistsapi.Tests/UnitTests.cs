@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
@@ -52,8 +53,8 @@ namespace codeartistsapi.Tests
                     Content = "Hello world!"
                 };
 
-                context.News.Remove(news);
-                context.SaveChanges();
+                //context.News.Remove(news);
+                //context.SaveChanges();
             }
 
             
@@ -102,6 +103,22 @@ namespace codeartistsapi.Tests
 
         }
        
+        [Fact]
+        public async Task CreateNews_ShouldCreateOneNews()
+        {
+            // Arrange
+            var jsonInString = "";
+            
+            // Act
+            var response = await _client.PostAsync("/api/News?CreateNews", new StringContent(jsonInString, Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            
+            // Assert
+            Assert.True(!responseString.Contains("404"));
+
+        }
 
         #endregion
 
